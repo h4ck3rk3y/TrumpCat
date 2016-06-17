@@ -4,14 +4,9 @@
   "description": "Takes care of your eyes by replacing all images of Trump with Cats",
   "version": "1.0",
 
-  "background": {
-    "persistent": false,
-    "scripts": ["background.js"]
-  },
-
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "js": ["content.js"]
+    "js": ["jquery-3.0.0.min.js", "content.js"]
   }],
 
   "browser_action": {
@@ -20,8 +15,12 @@
   },
 
   "icons": {
-    "128:" "icon.png"
+    "128": "icon.png"
   },
+
+  "web_accessible_resources": [
+    "hourglass.gif"
+  ],
 
   "permissions": ["activeTab"]
 }
