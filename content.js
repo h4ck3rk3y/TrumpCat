@@ -41,8 +41,7 @@ $(document).ready(function(){
 	        if($(image).attr('trumpcat', true)){
 
 		        determineIfTrump(url, function(response){
-		        	console.log("tryuing " + url);
-		        	if (response.isTrump == true && response.status == 200){
+		        	if (response.isTrump == true){
 		        		$(image).attr('src', trumpcatted);
 		        	}
 		        	else{
@@ -76,8 +75,8 @@ $(document).ready(function() {
         if($(image).attr('trumpcat', true)){
 
 	        determineIfTrump(url, function(response){
-	        	console.log(response);
-	        	if (response.isTrump == true && response.status == 200){
+	        	if (response.isTrump == true){
+	        		console.log('entered');
 	        		$(image).attr('src', response.cat);
 	        	}
 	        	else{
