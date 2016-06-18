@@ -22,14 +22,21 @@ function determineIfTrump(url, callback, errorCallback){
 1
 }
 
-$(document).ready(function() {
+
+$(document).ready(function(){
+	MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+	var observer = new MutationObserver(function(mutations, observer){
+
     $('img').each(function(index, image){
         var url = $(image).attr('src');
 
-        var original_style = $(image).attr("style");
+        var trumpcatted = $(image).attr('trumpcat');
 
-        $(image).attr("style", " background:url(" + url + ")");
-        $(image).attr("src", chrome.extension.getURL("hourglass.gif"));
+        if(var == null or var == undefined)
+        	continue;
+
+        if($(image).attr('trumpcat', true));
 
         determineIfTrump(url, function(response){
         	if (response.isTrump == true){
@@ -38,11 +45,34 @@ $(document).ready(function() {
         	else{
         		$(image).attr("src",  url);
         	}
-        	$(image).attr("style", original_style);
         }, function(){
+        })
 
-        	$(image).attr("style", original_style);
-        	$(image).attr("src", url);
+    });
+
+	observer.observe(document, {
+		subtree: true,
+		attributes: true,
+	});
+
+});
+
+
+
+
+
+$(document).ready(function() {
+    $('img').each(function(index, image){
+        var url = $(image).attr('src');
+
+        determineIfTrump(url, function(response){
+        	if (response.isTrump == true){
+        		$(image).attr('src', response.cat);
+        	}
+        	else{
+        		$(image).attr("src",  url);
+        	}
+        }, function(){
         })
     });
 });
