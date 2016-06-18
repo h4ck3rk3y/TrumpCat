@@ -16,7 +16,7 @@ application = Application([
 (r".*", FallbackHandler, dict(fallback=tr)),
 ],debug=True)
 
-http_server = tornado.httpserver.HTTPServer(application, ssl_options = {"certfile": "", "keyfile": ""})
+http_server = tornado.httpserver.HTTPServer(application, ssl_options = {"certfile": "/etc/letsencrypt/live/gyani.xyz/cert.pem", "keyfile": "/etc/letsencrypt/live/gyani.xyz/privkey.pem"})
 
 
 if __name__ == "__main__":
