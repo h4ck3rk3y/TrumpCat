@@ -1,7 +1,9 @@
 function determineIfTrump(url, callback, errorCallback){
 
 	var x = new XMLHttpRequest();
-	x.open('GET', "https://ec2-52-50-209-51.eu-west-1.compute.amazonaws.com/" + url);
+	x.open('POST', "https://gyani.xyz/url");
+	x.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
 	x.responseType = 'json';
 
 	x.onload = function(){
@@ -18,7 +20,7 @@ function determineIfTrump(url, callback, errorCallback){
 		errorCallback();
 	}
 
-	x.send();
+	x.send(JSON.stringify({url:url}));
 1
 }
 
