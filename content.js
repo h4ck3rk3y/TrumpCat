@@ -76,7 +76,7 @@ $(document).ready(function() {
         if($(image).attr('trumpcat', true)){
 
 	        determineIfTrump(url, function(response){
-	        	console.log(url);
+	        	console.log(response);
 	        	if (response.isTrump == true && response.status == 200){
 	        		$(image).attr('src', response.cat);
 	        	}

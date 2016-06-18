@@ -14,6 +14,9 @@ urls = db.urls
 @app.route("/url", methods=["POST"])
 def isTrump():
 
+	if not request.json.has_key('url'):
+		return {"isTrump": False}
+
 	url = request.json['url']
 	exists = urls.find({'url':url})
 
