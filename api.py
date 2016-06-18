@@ -15,7 +15,7 @@ urls = db.urls
 def isTrump():
 
 	if not request.json.has_key('url'):
-		return {"isTrump": False}
+		return {"isTrump": False, "message" : "no url specified"}
 
 	url = request.json['url']
 	exists = urls.find({'url':url})
@@ -26,7 +26,7 @@ def isTrump():
 		if trump["isTrump"]:
 			return {'isTrump': True, "cat": trump["cat"]}
 		else:
-			return {"isTrump": False}
+			return {"isTrump": False, "message":"set false in db"}
 
 	alchemyapi = AlchemyAPI()
 
@@ -41,12 +41,12 @@ def isTrump():
 				width = img.size[0]
 				height = img.size[1]
 				cat = "https://placekitten.com/%s/%s" %(str(width), str(height))
-				urls.insert({'url': url, 'cat': cat, "isTrump": False})
+				urls.insert({'url': url, 'cat': cat, "isTrump": True})
 				return {"isTrump": True, "cat": cat}
 
-		urls.insert({'url': url, 'isTrump': False})
+		urls.insert({'url': url, 'isTrump': False, "message": "found false in db"})
 		return {'isTrump': False}
 	else:
-		urls.insert({'url': url, 'isTrump': False})
+		urls.insert({'url': url, 'isTrump': False, "message": "request did not complete"})
 		return {"isTrump": False}
 
