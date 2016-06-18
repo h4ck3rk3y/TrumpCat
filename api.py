@@ -19,7 +19,7 @@ def isTrump(url):
 
 	alchemyapi = AlchemyAPI()
 
-	response = alchemyapi.faceTagging("url", url).json()
+	response = alchemyapi.faceTagging("url", url)
 
 	if response.has_key('imageFaces'):
 		for i in response['imageFaces']:
