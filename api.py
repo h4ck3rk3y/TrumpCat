@@ -2,7 +2,9 @@ from flask import request, url_for
 from flask.ext.api import FlaskAPI, status, exceptions
 from pymongo import MongoClient
 from alchemyapi import AlchemyAPI
-
+from PIL import Image
+import cStringIO
+import urllib
 
 app = FlaskAPI(__name__)
 client = MongoClient('mongodb://localhost:27017/')
@@ -26,7 +28,12 @@ def isTrump():
 		for i in response['imageFaces']:
 			print imageFaces
 			if i.has_key('identity') and  i.has_key('identity') and  i['identitiy']['name'] == "Donald Trump":
-				exists.insert({'url': url, 'status': True})
+				file = cStringIO.StringIO(urllib.urlopen(url).read())
+				img = Image.open(file)
+				width = im.size[0]
+				height = im.size[1]
+				cat = "https://placekitten.com/%s/%s" %(str(width), str(height))
+				exists.insert({'url': url, 'cat': cat})
 				return {"isTrump": True}
 
 		urls.insert({'url': url, 'status': False})

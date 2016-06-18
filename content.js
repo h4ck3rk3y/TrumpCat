@@ -38,18 +38,18 @@ $(document).ready(function(){
         if(var == null or var == undefined)
         	continue;
 
-        if($(image).attr('trumpcat', true));
+        if($(image).attr('trumpcat', true)){
 
-        determineIfTrump(url, function(response){
-        	if (response.isTrump == true){
-        		$(image).attr('src', response.cat);
-        	}
-        	else{
-        		$(image).attr("src",  url);
-        	}
-        }, function(){
-        })
-
+	        determineIfTrump(url, function(response){
+	        	if (response.isTrump == true){
+	        		$(image).attr('src', response.cat);
+	        	}
+	        	else{
+	        		$(image).attr("src",  url);
+	        	}
+	        }, function(){
+	        })
+	    }
     });
 
 	observer.observe(document, {
@@ -67,14 +67,23 @@ $(document).ready(function() {
     $('img').each(function(index, image){
         var url = $(image).attr('src');
 
-        determineIfTrump(url, function(response){
-        	if (response.isTrump == true){
-        		$(image).attr('src', response.cat);
-        	}
-        	else{
-        		$(image).attr("src",  url);
-        	}
-        }, function(){
-        })
+        var trumpcatted = $(image).attr('trumpcat');
+
+        if(var == null or var == undefined)
+        	continue;
+
+        if($(image).attr('trumpcat', true)){
+
+	        determineIfTrump(url, function(response){
+	        	if (response.isTrump == true){
+	        		$(image).attr('src', response.cat);
+	        	}
+	        	else{
+	        		$(image).attr("src",  url);
+	        	}
+	        }, function(){
+	        })
+	    }
     });
+
 });
