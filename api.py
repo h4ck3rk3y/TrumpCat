@@ -18,7 +18,7 @@ def isTrump():
 	exists = urls.find({'url':url})
 
 	if exists.count() != 0:
-		return {'isTrump': exists[0]['istrump']}
+		return {'isTrump': True, "cat": exists[0]['cat']}
 
 	alchemyapi = AlchemyAPI()
 
@@ -26,15 +26,15 @@ def isTrump():
 
 	if response.has_key('imageFaces'):
 		for i in response['imageFaces']:
-			print imageFaces
-			if i.has_key('identity') and  i.has_key('identity') and  i['identitiy']['name'] == "Donald Trump":
+		
+			if i.has_key('identity') and  i['identity']['name'] == "Donald Trump":
 				file = cStringIO.StringIO(urllib.urlopen(url).read())
 				img = Image.open(file)
-				width = im.size[0]
-				height = im.size[1]
+				width = img.size[0]
+				height = img.size[1]
 				cat = "https://placekitten.com/%s/%s" %(str(width), str(height))
-				exists.insert({'url': url, 'cat': cat})
-				return {"isTrump": True}
+				urls.insert({'url': url, 'cat': cat})
+				return {"isTrump": True, "cat": cat}
 
 		urls.insert({'url': url, 'status': False})
 		return {'isTrump': False}
