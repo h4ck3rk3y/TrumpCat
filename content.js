@@ -30,35 +30,36 @@ $(document).ready(function(){
 
 	var observer = new MutationObserver(function(mutations, observer){
 
-    $('img').each(function(index, image){
-        var url = $(image).attr('src');
+	    $('img').each(function(index, image){
+	        var url = $(image).attr('src');
 
-        var trumpcatted = $(image).attr('trumpcat');
+	        var trumpcatted = $(image).attr('trumpcat');
 
-        if(var == null or var == undefined)
-        	continue;
+	        if(trumpcatted == true)
+	        	return true;
 
-        if($(image).attr('trumpcat', true)){
+	        if($(image).attr('trumpcat', true)){
 
-	        determineIfTrump(url, function(response){
-	        	if (response.isTrump == true){
-	        		$(image).attr('src', response.cat);
-	        	}
-	        	else{
-	        		$(image).attr("src",  url);
-	        	}
-	        }, function(){
-	        })
-	    }
-    });
+		        determineIfTrump(url, function(response){
+		        	console.log("tryuing " + url);
+		        	if (response.isTrump == true && response.status == 200){
+		        		$(image).attr('src', trumpcatted);
+		        	}
+		        	else{
+		        		$(image).attr("src",  url);
+		        	}
+		        }, function(){
+		        })
+		    }
+	    });
 
-	observer.observe(document, {
-		subtree: true,
-		attributes: true,
+		observer.observe(document, {
+			subtree: true,
+			attributes: true,
+		});
+
 	});
-
 });
-
 
 
 
@@ -69,20 +70,21 @@ $(document).ready(function() {
 
         var trumpcatted = $(image).attr('trumpcat');
 
-        if(var == null or var == undefined)
-        	continue;
+        if(trumpcatted == true)
+        	return true;
 
         if($(image).attr('trumpcat', true)){
 
 	        determineIfTrump(url, function(response){
-	        	if (response.isTrump == true){
+	        	console.log(url);
+	        	if (response.isTrump == true && response.status == 200){
 	        		$(image).attr('src', response.cat);
 	        	}
 	        	else{
 	        		$(image).attr("src",  url);
 	        	}
 	        }, function(){
-	        })
+	        });
 	    }
     });
 
