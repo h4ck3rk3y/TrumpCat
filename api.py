@@ -16,7 +16,7 @@ def isTrump():
 	exists = urls.find({'url':url})
 
 	if exists.count() != 0:
-		return {'isTrump': exist[0]['istrump']}
+		return {'isTrump': exists[0]['istrump']}
 
 	alchemyapi = AlchemyAPI()
 
@@ -24,7 +24,8 @@ def isTrump():
 
 	if response.has_key('imageFaces'):
 		for i in response['imageFaces']:
-			if i['identitiy']['name'] == "Donald Trump":
+			print imageFaces
+			if i.has_key('identity') and  i.has_key('identity') and  i['identitiy']['name'] == "Donald Trump":
 				exists.insert({'url': url, 'status': True})
 				return {"isTrump": True}
 
