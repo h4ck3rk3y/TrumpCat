@@ -22,13 +22,13 @@ function determineIfTrump(url, callback, errorCallback){
 1
 }
 
-$(document).bind("DOMSubtreeModified", function() {
+$(document).ready(function() {
     $('img').each(function(index, image){
         var url = $(image).attr('src');
 
         var original_style = $(image).attr("style");
-        console.log(original_style);
-        $(image).attr("style", original_style + " background:url(" + url + ")");
+
+        $(image).attr("style", " background:url(" + url + ")");
         $(image).attr("src", chrome.extension.getURL("hourglass.gif"));
 
         determineIfTrump(url, function(response){
