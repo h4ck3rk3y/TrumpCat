@@ -3,6 +3,10 @@ from tornado.ioloop import IOLoop
 from tornado.web import FallbackHandler, RequestHandler, Application
 from api  import app
 import tornado.httpserver
+import tornado.options
+
+tornado.options.parse_command_line()
+
 
 
 class MainHandler(RequestHandler):
