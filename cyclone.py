@@ -2,6 +2,8 @@ from tornado.wsgi import WSGIContainer
 from tornado.ioloop import IOLoop
 from tornado.web import FallbackHandler, RequestHandler, Application
 from api  import app
+import tornado.httpserver
+
 
 class MainHandler(RequestHandler):
   def get(self):
@@ -14,6 +16,9 @@ application = Application([
 (r".*", FallbackHandler, dict(fallback=tr)),
 ],debug=True)
 
+http_server = tornado.httpserver.HTTPServer(application, ssl_options = {"certfile": "", "keyfile": ""})
+
+
 if __name__ == "__main__":
-  application.listen(80,'ec2-52-50-209-51.eu-west-1.compute.amazonaws.com')
+  http_server.listen(443)
   IOLoop.instance().start()

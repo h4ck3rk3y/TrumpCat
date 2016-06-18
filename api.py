@@ -9,9 +9,10 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client.trumpcat
 urls = db.urls
 
-@app.route("/<url>", methods=["GET"])
-def isTrump(url):
+@app.route("/url", methods=["POST"])
+def isTrump():
 
+	url = request.json['url']
 	exists = urls.find({'url':url})
 
 	if exists.count() != 0:
@@ -27,9 +28,9 @@ def isTrump(url):
 				exists.insert({'url': url, 'status': True})
 				return {"isTrump": True}
 
-		exists.insert({'url': url, 'status': False})
+		urls.insert({'url': url, 'status': False})
 		return {'isTrump': False}
 	else:
-		exists.insert({'url': url, 'status': False})
+		urls.insert({'url': url, 'status': False})
 		return {"isTrump": False}
 
