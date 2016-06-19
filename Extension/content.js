@@ -1,3 +1,22 @@
+function getCurrentTabUrl(callback) {
+
+  console.log("bro");
+
+  var queryInfo = {
+    active: true,
+    currentWindow: true
+  };
+
+  chrome.tabs.query(queryInfo, function(tabs) {
+    var tab = tabs[0];
+    var url = tab.url;
+    console.log(url);
+
+    callback(url);
+  });
+};
+
+
 function determineIfTrump(url, callback, errorCallback){
 
 	var x = new XMLHttpRequest();
@@ -26,35 +45,43 @@ function determineIfTrump(url, callback, errorCallback){
 
 
 $(document).ready(function(){
-	MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+	console.log("yahan");
+	getCurrentTabUrl(function(parent_url){
+		MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-	var observer = new MutationObserver(function(mutations, observer){
+		var observer = new MutationObserver(function(mutations, observer){
 
-	    $('img').each(function(index, image){
-	        var url = $(image).attr('src');
+		    $('img').each(function(index, image){
 
-	        var trumpcatted = $(image).attr('trumpcat');
+		    	console.log(parent_url);
 
-	        if(trumpcatted == true)
-	        	return true;
+		        var url = $(image).attr('src');
 
-	        if($(image).attr('trumpcat', true)){
+		        var trumpcatted = $(image).attr('trumpcat');
 
-		        determineIfTrump(url, function(response){
-		        	if (response.isTrump == true){
-		        		$(image).attr('src', trumpcatted);
-		        	}
-		        	else{
-		        		$(image).attr("src",  url);
-		        	}
-		        }, function(){
-		        })
-		    }
-	    });
+		        if(trumpcatted == true)
+		        	return true;
 
-		observer.observe(document, {
-			subtree: true,
-			attributes: true,
+		        if($(image).attr('trumpcat', true))
+		        {
+
+			        determineIfTrump(url, function(response){
+			        	if (response.isTrump == true){
+			        		$(image).attr('src', trumpcatted);
+			        	}
+			        	else{
+			        		$(image).attr("src",  url);
+			        	}
+			        }, function(){
+			        });
+			    }
+		    });
+
+			observer.observe(document, {
+				subtree: true,
+				attributes: true,
+			});
+
 		});
 
 	});
@@ -64,27 +91,35 @@ $(document).ready(function(){
 
 
 $(document).ready(function() {
-    $('img').each(function(index, image){
-        var url = $(image).attr('src');
+	console.log("wahan");
+	getCurrentTabUrl(function(parent_url){
 
-        var trumpcatted = $(image).attr('trumpcat');
+	    $('img').each(function(index, image, parent_url){
 
-        if(trumpcatted == true)
-        	return true;
+	    	console.log(parent_url);
 
-        if($(image).attr('trumpcat', true)){
+	        var url = $(image).attr('src');
 
-	        determineIfTrump(url, function(response){
-	        	if (response.isTrump == true){
-	        		console.log('entered');
-	        		$(image).attr('src', response.cat);
-	        	}
-	        	else{
-	        		$(image).attr("src",  url);
-	        	}
-	        }, function(){
-	        });
-	    }
-    });
+	        var trumpcatted = $(image).attr('trumpcat');
 
+	        if(trumpcatted == true)
+	        	return true;
+
+	        if($(image).attr('trumpcat', true))
+	        {
+
+		        determineIfTrump(url, function(response){
+		        	if (response.isTrump == true){
+		        		console.log('entered');
+		        		$(image).attr('src', response.cat);
+		        	}
+		        	else{
+		        		$(image).attr("src",  url);
+		        	}
+		        }, function(){
+		        });
+		    }
+	    });
+
+	});
 });
