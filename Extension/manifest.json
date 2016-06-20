@@ -18,9 +18,13 @@
     "128": "icon.png"
   },
 
+  "background" : {
+    "scripts": ["bg.js"]
+  },
+
   "web_accessible_resources": [
     "hourglass.gif"
   ],
 
-  "permissions": ["activeTab"]
+  "permissions": ["activeTab", "tabs"]
 }

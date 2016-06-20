@@ -1,21 +1,3 @@
-function getCurrentTabUrl(callback) {
-
-  console.log("bro");
-
-  var queryInfo = {
-    active: true,
-    currentWindow: true
-  };
-
-  chrome.tabs.query(queryInfo, function(tabs) {
-    var tab = tabs[0];
-    var url = tab.url;
-    console.log(url);
-
-    callback(url);
-  });
-};
-
 
 function determineIfTrump(url, callback, errorCallback){
 
@@ -44,20 +26,35 @@ function determineIfTrump(url, callback, errorCallback){
 }
 
 
-$(document).ready(function(){
-	console.log("yahan");
-	getCurrentTabUrl(function(parent_url){
-		MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+chrome.runtime.onMessage.addListener(
+	function(request, sender, sendResponse){
 
-		var observer = new MutationObserver(function(mutations, observer){
+		var parent_url = request.link;
+		sendResponse({message: "thanksbro"});
+
+		$(document).ready(function() {
 
 		    $('img').each(function(index, image){
 
-		    	console.log(parent_url);
-
 		        var url = $(image).attr('src');
 
+		    	var parser = document.createElement('a');
+		    	parser.href = url;
+
+
+
+		    	if(url.substr(0, 2) == "//"){
+		    		parser.href = parent_url;
+		    		url = parser.protocol + url;
+		    	}
+		    	else if (url.substr(0,1) == "/")
+		    	{
+		    		url = parser.protocol + "//" + parser.hostname + parser.pathname;
+		    	}
+
+
 		        var trumpcatted = $(image).attr('trumpcat');
+				console.log(url);
 
 		        if(trumpcatted == true)
 		        	return true;
@@ -67,7 +64,7 @@ $(document).ready(function(){
 
 			        determineIfTrump(url, function(response){
 			        	if (response.isTrump == true){
-			        		$(image).attr('src', trumpcatted);
+			        		$(image).attr('src', response.cat);
 			        	}
 			        	else{
 			        		$(image).attr("src",  url);
@@ -76,50 +73,56 @@ $(document).ready(function(){
 			        });
 			    }
 		    });
+		});
 
-			observer.observe(document, {
-				subtree: true,
-				attributes: true,
+		$(document).ready(function(){
+
+			MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+			var observer = new MutationObserver(function(mutations, observer){
+
+			    $('img').each(function(index, image){
+
+			        var url = $(image).attr('src');
+			    	var parser = document.createElement('a');
+			    	parser.href = url;
+
+			    	if(url.substr(0, 2) == "//"){
+			    		parser.href = parent_url;
+			    		url = parser.protocol + url;
+			    	}
+			    	else if (url.substr(0,1) == "/")
+			    	{
+			    		url = parser.protocol + "//" + parser.hostname + parser.pathname;
+			    	}
+
+			        var trumpcatted = $(image).attr('trumpcat');
+			        console.log(url);
+
+			        if(trumpcatted == true)
+			        	return true;
+
+			        if($(image).attr('trumpcat', true))
+			        {
+
+				        determineIfTrump(url, function(response){
+				        	if (response.isTrump == true){
+				        		$(image).attr('src', trumpcatted);
+				        	}
+				        	else{
+				        		$(image).attr("src",  url);
+				        	}
+				        }, function(){
+				        });
+				    }
+			    });
+
+				observer.observe(document, {
+					subtree: true,
+					attributes: true,
+				});
+
 			});
 
 		});
-
-	});
-});
-
-
-
-
-$(document).ready(function() {
-	console.log("wahan");
-	getCurrentTabUrl(function(parent_url){
-
-	    $('img').each(function(index, image, parent_url){
-
-	    	console.log(parent_url);
-
-	        var url = $(image).attr('src');
-
-	        var trumpcatted = $(image).attr('trumpcat');
-
-	        if(trumpcatted == true)
-	        	return true;
-
-	        if($(image).attr('trumpcat', true))
-	        {
-
-		        determineIfTrump(url, function(response){
-		        	if (response.isTrump == true){
-		        		console.log('entered');
-		        		$(image).attr('src', response.cat);
-		        	}
-		        	else{
-		        		$(image).attr("src",  url);
-		        	}
-		        }, function(){
-		        });
-		    }
-	    });
-
-	});
 });
